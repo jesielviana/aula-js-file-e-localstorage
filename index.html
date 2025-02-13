@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biblioteca</title>
+    <style>
+      body {
+        max-width: 700px;
+        margin: 16px auto;
+        border: 1px solid #555;
+        padding: 1rem;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function salvar() {
+        const campoTitulo = document.querySelector("#titulo");
+        let livros = [];
+        if (localStorage.getItem("livros") != null) {
+          livros = JSON.parse(localStorage.getItem("livros"));
+        }
+        const livro = {
+          titulo: campoTitulo.value,
+        };
+        livros.push(livro);
+        localStorage.setItem("livros", JSON.stringify(livros));
+        carregaLivros();
+      }
+      function carregaLivros() {
+        const ulLivros = document.querySelector("#livros");
+        if (localStorage.getItem("livros") != null) {
+          ulLivros.innerHTML = "";
+          const livros = JSON.parse(localStorage.getItem("livros"));
+          livros.forEach((livro) => {
+            ulLivros.innerHTML =
+              ulLivros.innerHTML + `<li>${livro.titulo}</li>`;
+          });
+        }
+      }
+    </script>
+    <h1>Biblioteca</h1>
+    <form>
+      <label>Título do livro: </label><input type="text" id="titulo" />
+      <button onclick="salvar()" type="button">Salvar</button>
+    </form>
+    <h2>Livros</h2>
+    <button onclick="carregaLivros()" type="button">Carregar</button>
+    <ul id="livros"></ul>
+  </body>
+</html>
